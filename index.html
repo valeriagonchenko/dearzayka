@@ -35,7 +35,6 @@
       overflow-x: hidden;
     }
 
-    /* ── HEADER ── */
     header {
       position: sticky;
       top: 0;
@@ -58,6 +57,7 @@
       text-decoration: none;
       cursor: pointer;
     }
+
     .logo span { color: var(--accent); }
 
     .header-right {
@@ -71,12 +71,17 @@
     }
 
     @media (min-width: 768px) {
-      header { padding: 0 40px; height: 68px; }
+      header {
+        padding: 0 40px;
+        height: 68px;
+      }
+
       .nav-desktop {
         display: flex;
         gap: 28px;
         list-style: none;
       }
+
       .nav-desktop a {
         font-size: 0.8rem;
         font-weight: 500;
@@ -86,11 +91,12 @@
         text-decoration: none;
         transition: color 0.2s;
       }
+
       .nav-desktop a:hover { color: var(--ink); }
+
       .burger { display: none; }
     }
 
-    /* burger */
     .burger {
       background: none;
       border: none;
@@ -100,6 +106,7 @@
       gap: 5px;
       padding: 4px;
     }
+
     .burger span {
       display: block;
       width: 22px;
@@ -107,24 +114,31 @@
       background: var(--ink);
       transition: var(--transition);
     }
+
     .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .burger.open span:nth-child(2) { opacity: 0; }
     .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-    /* ── DRAWER ── */
     .drawer-overlay {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: rgba(28,28,25,0.35);
       z-index: 200;
       opacity: 0;
       pointer-events: none;
       transition: opacity var(--transition);
     }
-    .drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
 
     .drawer {
       position: fixed;
-      top: 0; left: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
       width: min(80vw, 300px);
       background: var(--white);
       z-index: 201;
@@ -134,6 +148,7 @@
       display: flex;
       flex-direction: column;
     }
+
     .drawer.open { transform: translateX(0); }
 
     .drawer-header {
@@ -143,15 +158,18 @@
       padding: 0 24px 24px;
       border-bottom: 1px solid var(--border);
     }
+
     .drawer-logo {
       font-family: var(--font-display);
       font-size: 1.2rem;
       font-weight: 700;
     }
+
     .drawer-logo span { color: var(--accent); }
 
     .close-btn {
-      background: none; border: none;
+      background: none;
+      border: none;
       cursor: pointer;
       font-size: 1.4rem;
       color: var(--ink2);
@@ -164,6 +182,7 @@
       padding: 20px 0;
       flex: 1;
     }
+
     .drawer-nav li a {
       display: block;
       padding: 14px 24px;
@@ -174,19 +193,20 @@
       transition: background 0.15s;
       letter-spacing: 0.01em;
     }
+
     .drawer-nav li a:hover { background: var(--accent-light); }
 
     .drawer-footer {
       padding: 20px 24px 0;
       border-top: 1px solid var(--border);
     }
+
     .drawer-footer p {
       font-size: 0.78rem;
       color: var(--ink2);
       letter-spacing: 0.04em;
     }
 
-    /* ── HERO ── */
     .hero {
       padding: 52px 20px 40px;
       text-align: center;
@@ -214,6 +234,7 @@
       color: var(--ink);
       margin-bottom: 18px;
     }
+
     .hero h1 em {
       font-style: italic;
       color: var(--accent);
@@ -243,7 +264,12 @@
       border: none;
       transition: background var(--transition), transform 0.15s;
     }
-    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
     .btn-primary:active { transform: translateY(0); }
 
     .hero-divider {
@@ -254,13 +280,13 @@
       opacity: 0.5;
     }
 
-    /* ── SECTION TITLE ── */
     .section-header {
       padding: 0 20px 28px;
       display: flex;
       align-items: baseline;
       justify-content: space-between;
     }
+
     @media (min-width: 768px) {
       .section-header { padding: 0 40px 36px; }
     }
@@ -278,10 +304,10 @@
       font-weight: 300;
     }
 
-    /* ── GRID ── */
     .catalog {
       padding: 0 20px 60px;
     }
+
     @media (min-width: 768px) {
       .catalog { padding: 0 40px 80px; }
     }
@@ -291,17 +317,23 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
+
     @media (min-width: 600px) {
-      .grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    }
-    @media (min-width: 1024px) {
-      .grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
     }
 
-    /* ── PRODUCT CARD ── */
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+    }
+
     .card {
       cursor: pointer;
-      group: card;
     }
 
     .card-img {
@@ -312,6 +344,7 @@
       overflow: hidden;
       margin-bottom: 12px;
     }
+
     .card-img::after {
       content: '';
       position: absolute;
@@ -319,7 +352,9 @@
       background: var(--ink);
       opacity: 0;
       transition: opacity var(--transition);
+      z-index: 2;
     }
+
     .card:hover .card-img::after { opacity: 0.06; }
 
     .card-img img {
@@ -327,11 +362,15 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+      transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.4,0,0.2,1);
     }
+
     .card:hover .card-img img { transform: scale(1.04); }
 
-    /* placeholder */
+    .card-img img.is-changing {
+      opacity: 0;
+    }
+
     .card-img .placeholder {
       position: absolute;
       inset: 0;
@@ -341,15 +380,22 @@
       justify-content: center;
       gap: 10px;
     }
+
     .placeholder-icon {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       opacity: 0.22;
     }
-    .placeholder-icon svg { width: 100%; height: 100%; }
+
+    .placeholder-icon svg {
+      width: 100%;
+      height: 100%;
+    }
 
     .card-num {
       position: absolute;
-      top: 12px; left: 12px;
+      top: 12px;
+      left: 12px;
       font-family: var(--font-display);
       font-size: 0.7rem;
       color: var(--white);
@@ -357,6 +403,7 @@
       padding: 2px 7px;
       letter-spacing: 0.08em;
       opacity: 0.7;
+      z-index: 3;
     }
 
     .card-title {
@@ -375,7 +422,6 @@
       text-transform: uppercase;
     }
 
-    /* ── PRODUCT PAGE (OVERLAY) ── */
     .product-page {
       position: fixed;
       inset: 0;
@@ -386,6 +432,7 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
+
     .product-page.open {
       transform: translateX(0);
     }
@@ -402,8 +449,12 @@
       height: 56px;
       z-index: 10;
     }
+
     @media (min-width: 768px) {
-      .product-topbar { padding: 0 40px; height: 64px; }
+      .product-topbar {
+        padding: 0 40px;
+        height: 64px;
+      }
     }
 
     .back-btn {
@@ -421,8 +472,11 @@
       color: var(--ink2);
       transition: color 0.2s;
     }
+
     .back-btn:hover { color: var(--ink); }
+
     .back-btn svg { transition: transform 0.2s; }
+
     .back-btn:hover svg { transform: translateX(-3px); }
 
     .product-num-label {
@@ -436,6 +490,7 @@
       max-width: 900px;
       margin: 0 auto;
     }
+
     @media (min-width: 768px) {
       .product-inner {
         padding: 40px 40px 80px;
@@ -446,7 +501,6 @@
       }
     }
 
-    /* Gallery */
     .gallery {
       position: relative;
     }
@@ -459,8 +513,10 @@
       margin-bottom: 10px;
       position: relative;
     }
+
     .gallery-main img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
@@ -469,6 +525,7 @@
       display: flex;
       gap: 8px;
     }
+
     .gallery-thumb {
       flex: 1;
       aspect-ratio: 3/4;
@@ -478,25 +535,41 @@
       border: 1.5px solid transparent;
       transition: border-color 0.2s;
     }
-    .gallery-thumb.active { border-color: var(--ink); }
-    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* Placeholder for gallery */
+    .gallery-thumb.active { border-color: var(--ink); }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .img-placeholder {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--bg2);
     }
-    .img-placeholder svg { opacity: 0.18; width: 28px; height: 28px; }
 
-    /* Product info */
+    .img-placeholder svg {
+      opacity: 0.18;
+      width: 28px;
+      height: 28px;
+    }
+
     .product-info {
       padding-top: 8px;
     }
+
     @media (min-width: 768px) {
-      .product-info { padding-top: 0; position: sticky; top: 80px; }
+      .product-info {
+        padding-top: 0;
+        position: sticky;
+        top: 80px;
+      }
     }
 
     .product-tag {
@@ -515,10 +588,15 @@
       line-height: 1.2;
       margin-bottom: 20px;
     }
-    .product-title em { font-style: italic; color: var(--accent); }
+
+    .product-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
 
     .product-divider {
-      width: 32px; height: 1px;
+      width: 32px;
+      height: 1px;
       background: var(--accent);
       margin-bottom: 20px;
     }
@@ -535,6 +613,7 @@
       list-style: none;
       margin-bottom: 32px;
     }
+
     .product-features li {
       display: flex;
       align-items: flex-start;
@@ -545,9 +624,14 @@
       border-bottom: 1px solid var(--border);
       font-weight: 300;
     }
-    .product-features li:first-child { border-top: 1px solid var(--border); }
+
+    .product-features li:first-child {
+      border-top: 1px solid var(--border);
+    }
+
     .feat-dot {
-      width: 4px; height: 4px;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
@@ -571,15 +655,16 @@
       transition: background var(--transition);
       text-decoration: none;
     }
+
     .btn-order:hover { background: var(--accent); }
 
-    /* ── CONTACT ── */
     .contact-section {
       background: var(--ink);
       color: var(--white);
       padding: 60px 20px;
       text-align: center;
     }
+
     @media (min-width: 768px) {
       .contact-section { padding: 80px 40px; }
     }
@@ -599,6 +684,7 @@
       line-height: 1.2;
       margin-bottom: 14px;
     }
+
     .contact-section h2 em { font-style: italic; }
 
     .contact-section p {
@@ -629,9 +715,12 @@
       text-transform: uppercase;
       transition: border-color 0.2s, background 0.2s;
     }
-    .contact-link:hover { border-color: var(--accent); background: rgba(200,151,74,0.12); }
 
-    /* ── FOOTER ── */
+    .contact-link:hover {
+      border-color: var(--accent);
+      background: rgba(200,151,74,0.12);
+    }
+
     footer {
       padding: 24px 20px;
       border-top: 1px solid var(--border);
@@ -641,28 +730,41 @@
       flex-wrap: wrap;
       gap: 12px;
     }
+
     @media (min-width: 768px) {
       footer { padding: 24px 40px; }
     }
 
     footer .logo { font-size: 1rem; }
+
     footer p {
       font-size: 0.72rem;
       color: var(--ink2);
       letter-spacing: 0.06em;
     }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .fade-up {
       opacity: 0;
       animation: fadeUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
     }
-    .card { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+    .card {
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+
     .card:nth-child(1) { animation-delay: 0.05s; }
     .card:nth-child(2) { animation-delay: 0.12s; }
     .card:nth-child(3) { animation-delay: 0.19s; }
@@ -670,7 +772,6 @@
     .card:nth-child(5) { animation-delay: 0.33s; }
     .card:nth-child(6) { animation-delay: 0.40s; }
 
-    /* ── TOAST (order confirmation) ── */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -687,6 +788,7 @@
       z-index: 999;
       white-space: nowrap;
     }
+
     .toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
@@ -695,10 +797,8 @@
 </head>
 <body>
 
-<!-- DRAWER OVERLAY -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 
-<!-- DRAWER -->
 <div class="drawer" id="drawer">
   <div class="drawer-header">
     <span class="drawer-logo">Dear<span>Zayka</span></span>
@@ -713,7 +813,6 @@
   </div>
 </div>
 
-<!-- HEADER -->
 <header>
   <a class="logo" onclick="showCatalog()">Dear<span>Zayka</span></a>
   <nav>
@@ -729,10 +828,7 @@
   </div>
 </header>
 
-<!-- MAIN CONTENT (catalog view) -->
 <main id="mainView">
-
-  <!-- HERO -->
   <section class="hero">
     <p class="hero-eyebrow fade-up" style="animation-delay:0.1s">это тебе — зайчик передал</p>
     <h1 class="fade-up" style="animation-delay:0.2s">Создаю<br><em>уникальные</em><br>подарки</h1>
@@ -743,20 +839,16 @@
     <div class="hero-divider"></div>
   </section>
 
-  <!-- CATALOG -->
   <section id="catalog">
     <div class="section-header">
       <h2 class="section-title">Что делаю</h2>
       <span class="section-count">6 услуг</span>
     </div>
     <div class="catalog">
-      <div class="grid" id="productGrid">
-        <!-- cards rendered by JS -->
-      </div>
+      <div class="grid" id="productGrid"></div>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section class="contact-section" id="contact">
     <p class="section-eyebrow">Написать мне</p>
     <h2>Обсудим<br><em>ваш подарок</em></h2>
@@ -777,10 +869,8 @@
     <span class="logo">Dear<span>Zayka</span></span>
     <p>© 2025 · DearZayka · Зайчик передал</p>
   </footer>
-
 </main>
 
-<!-- PRODUCT PAGE -->
 <div class="product-page" id="productPage">
   <div class="product-topbar">
     <button class="back-btn" onclick="closePage()">
@@ -804,7 +894,6 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast">✓ Сообщение отправлено — скоро свяжусь!</div>
 
 <script>
@@ -845,6 +934,11 @@
       tag: "Иллюстрация",
       shortDesc: "Из вашей фотографии",
       images: 3,
+      imageFiles: [
+        "familycolorpaper.png",
+        "familycolorpaper2.png",
+        "catcolorpaper.png"
+      ],
       desc: "Превращаю фотографию в детальную раскраску — людей, питомцев, семейные портреты. Красивые линии, все детали прорисованы вручную.",
       features: [
         "Люди, животные, семейные портреты",
@@ -901,14 +995,17 @@
     }
   ];
 
-  // Render cards
   const grid = document.getElementById('productGrid');
+
   products.forEach(p => {
     const card = document.createElement('div');
     card.className = 'card';
+    card.dataset.productId = p.id;
     card.onclick = () => openPage(p.id);
-    card.innerHTML = `
-      <div class="card-img">
+
+    const cardImageHTML = p.imageFiles?.length
+      ? `<img class="card-main-image" src="${p.imageFiles[0]}" alt="${p.title}" data-image-index="0">`
+      : `
         <div class="placeholder">
           <div class="placeholder-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
@@ -918,37 +1015,102 @@
             </svg>
           </div>
         </div>
+      `;
+
+    card.innerHTML = `
+      <div class="card-img">
+        ${cardImageHTML}
         <span class="card-num">0${p.id}</span>
       </div>
       <div class="card-title">${p.title}</div>
       <div class="card-tag">${p.shortDesc}</div>
     `;
+
     grid.appendChild(card);
   });
 
-  // Open product page
+  function startColoringCardSlideshow() {
+    const coloringProduct = products.find(p => p.id === 3);
+    const coloringCard = document.querySelector('.card[data-product-id="3"]');
+    const coloringImage = coloringCard?.querySelector('.card-main-image');
+
+    if (!coloringProduct?.imageFiles?.length || !coloringImage) return;
+
+    let index = 0;
+
+    setInterval(() => {
+      index = (index + 1) % coloringProduct.imageFiles.length;
+      coloringImage.classList.add('is-changing');
+
+      setTimeout(() => {
+        coloringImage.src = coloringProduct.imageFiles[index];
+        coloringImage.dataset.imageIndex = index;
+        coloringImage.classList.remove('is-changing');
+      }, 250);
+    }, 3500);
+  }
+
+  startColoringCardSlideshow();
+
   function openPage(id) {
     const p = products.find(x => x.id === id);
     document.getElementById('pageNum').textContent = `0${p.id} / 0${products.length}`;
 
-    // Gallery
     const mainEl = document.getElementById('galleryMain');
-    mainEl.innerHTML = `<div class="img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`;
-
     const thumbsEl = document.getElementById('galleryThumbs');
     thumbsEl.innerHTML = '';
-    for (let i = 0; i < p.images; i++) {
-      const t = document.createElement('div');
-      t.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
-      t.innerHTML = `<div class="img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`;
-      t.onclick = () => {
-        thumbsEl.querySelectorAll('.gallery-thumb').forEach(x => x.classList.remove('active'));
-        t.classList.add('active');
-      };
-      thumbsEl.appendChild(t);
+
+    const galleryImages = p.imageFiles || [];
+
+    if (galleryImages.length) {
+      mainEl.innerHTML = `<img src="${galleryImages[0]}" alt="${p.title}">`;
+
+      galleryImages.forEach((img, i) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+        thumb.innerHTML = `<img src="${img}" alt="${p.title} ${i + 1}">`;
+
+        thumb.onclick = () => {
+          mainEl.innerHTML = `<img src="${img}" alt="${p.title}">`;
+          thumbsEl.querySelectorAll('.gallery-thumb').forEach(x => x.classList.remove('active'));
+          thumb.classList.add('active');
+        };
+
+        thumbsEl.appendChild(thumb);
+      });
+    } else {
+      mainEl.innerHTML = `
+        <div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 15l-5-5L5 21"/>
+          </svg>
+        </div>
+      `;
+
+      for (let i = 0; i < p.images; i++) {
+        const thumb = document.createElement('div');
+        thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+        thumb.innerHTML = `
+          <div class="img-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+          </div>
+        `;
+
+        thumb.onclick = () => {
+          thumbsEl.querySelectorAll('.gallery-thumb').forEach(x => x.classList.remove('active'));
+          thumb.classList.add('active');
+        };
+
+        thumbsEl.appendChild(thumb);
+      }
     }
 
-    // Info
     const featuresHTML = p.features.map(f => `
       <li><span class="feat-dot"></span>${f}</li>
     `).join('');
@@ -975,6 +1137,7 @@
 
   function orderProduct(title) {
     closePage();
+
     setTimeout(() => {
       const toast = document.getElementById('toast');
       toast.classList.add('show');
@@ -982,13 +1145,15 @@
     }, 400);
   }
 
-  // Drawer
   function toggleDrawer() {
     const d = document.getElementById('drawer');
     const o = document.getElementById('drawerOverlay');
     const b = document.getElementById('burgerBtn');
     const isOpen = d.classList.contains('open');
-    if (isOpen) { closeDrawer(); } else {
+
+    if (isOpen) {
+      closeDrawer();
+    } else {
       d.classList.add('open');
       o.classList.add('open');
       b.classList.add('open');
@@ -1008,10 +1173,13 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Close product page with swipe right on mobile
   let touchStartX = 0;
   const productPage = document.getElementById('productPage');
-  productPage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+
+  productPage.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
   productPage.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - touchStartX;
     if (dx > 80 && productPage.scrollTop === 0) closePage();
