@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gifted — персонализированные подарки</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F8F6F1;
+      --bg2: #F0EDE4;
+      --ink: #1C1C19;
+      --ink2: #5A5A54;
+      --accent: #C8974A;
+      --accent-light: #F5ECD8;
+      --white: #FFFFFF;
+      --border: rgba(28,28,25,0.10);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Jost', sans-serif;
+      --radius: 4px;
+      --transition: 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 60px;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .logo span { color: var(--accent); }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav-desktop {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      header { padding: 0 40px; height: 68px; }
+      .nav-desktop {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+      }
+      .nav-desktop a {
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink2);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-desktop a:hover { color: var(--ink); }
+      .burger { display: none; }
+    }
+
+    /* burger */
+    .burger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .burger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--ink);
+      transition: var(--transition);
+    }
+    .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── DRAWER ── */
+    .drawer-overlay {
+      position: fixed; inset: 0;
+      background: rgba(28,28,25,0.35);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+    .drawer {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: min(80vw, 300px);
+      background: var(--white);
+      z-index: 201;
+      transform: translateX(-100%);
+      transition: transform var(--transition);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .drawer-logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .drawer-logo span { color: var(--accent); }
+
+    .close-btn {
+      background: none; border: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: var(--ink2);
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .drawer-nav {
+      list-style: none;
+      padding: 20px 0;
+      flex: 1;
+    }
+    .drawer-nav li a {
+      display: block;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .drawer-nav li a:hover { background: var(--accent-light); }
+
+    .drawer-footer {
+      padding: 20px 24px 0;
+      border-top: 1px solid var(--border);
+    }
+    .drawer-footer p {
+      font-size: 0.78rem;
+      color: var(--ink2);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 52px 20px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .hero { padding: 80px 40px 60px; }
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 7vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.18;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--ink2);
+      max-width: 420px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--white);
+      padding: 14px 32px;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background var(--transition), transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin: 40px auto 0;
+      opacity: 0.5;
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-header {
+      padding: 0 20px 28px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    @media (min-width: 768px) {
+      .section-header { padding: 0 40px 36px; }
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 400;
+    }
+
+    .section-count {
+      font-size: 0.75rem;
+      color: var(--ink2);
+      letter-spacing: 0.1em;
+      font-weight: 300;
+    }
+
+    /* ── GRID ── */
+    .catalog {
+      padding: 0 20px 60px;
+    }
+    @media (min-width: 768px) {
+      .catalog { padding: 0 40px 80px; }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 600px) {
+      .grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    }
+    @media (min-width: 1024px) {
+      .grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    }
+
+    /* ── PRODUCT CARD ── */
+    .card {
+      cursor: pointer;
+      group: card;
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .card:hover .card-img::after { opacity: 0.06; }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .card:hover .card-img img { transform: scale(1.04); }
+
+    /* placeholder */
+    .card-img .placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .placeholder-icon {
+      width: 32px; height: 32px;
+      opacity: 0.22;
+    }
+    .placeholder-icon svg { width: 100%; height: 100%; }
+
+    .card-num {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      color: var(--white);
+      background: var(--ink);
+      padding: 2px 7px;
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(0.82rem, 2.2vw, 1rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── PRODUCT PAGE (OVERLAY) ── */
+    .product-page {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 300;
+      transform: translateX(100%);
+      transition: transform var(--transition);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .product-page.open {
+      transform: translateX(0);
+    }
+
+    .product-topbar {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 56px;
+      z-index: 10;
+    }
+    @media (min-width: 768px) {
+      .product-topbar { padding: 0 40px; height: 64px; }
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink2);
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--ink); }
+    .back-btn svg { transition: transform 0.2s; }
+    .back-btn:hover svg { transform: translateX(-3px); }
+
+    .product-num-label {
+      font-size: 0.72rem;
+      color: var(--ink2);
+      letter-spacing: 0.1em;
+    }
+
+    .product-inner {
+      padding: 28px 20px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) {
+      .product-inner {
+        padding: 40px 40px 80px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+    }
+
+    /* Gallery */
+    .gallery {
+      position: relative;
+    }
+
+    .gallery-main {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--bg2);
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .gallery-main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+    }
+    .gallery-thumb {
+      flex: 1;
+      aspect-ratio: 3/4;
+      background: var(--bg2);
+      cursor: pointer;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .gallery-thumb.active { border-color: var(--ink); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Placeholder for gallery */
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg2);
+    }
+    .img-placeholder svg { opacity: 0.18; width: 28px; height: 28px; }
+
+    /* Product info */
+    .product-info {
+      padding-top: 8px;
+    }
+    @media (min-width: 768px) {
+      .product-info { padding-top: 0; position: sticky; top: 80px; }
+    }
+
+    .product-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .product-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .product-title em { font-style: italic; color: var(--accent); }
+
+    .product-divider {
+      width: 32px; height: 1px;
+      background: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .product-desc {
+      font-size: 0.9rem;
+      color: var(--ink2);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    .product-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    .product-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.83rem;
+      color: var(--ink2);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-weight: 300;
+    }
+    .product-features li:first-child { border-top: 1px solid var(--border); }
+    .feat-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    .btn-order {
+      display: block;
+      width: 100%;
+      background: var(--ink);
+      color: var(--white);
+      padding: 16px 24px;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      transition: background var(--transition);
+      text-decoration: none;
+    }
+    .btn-order:hover { background: var(--accent); }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: var(--ink);
+      color: var(--white);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .contact-section { padding: 80px 40px; }
+    }
+
+    .contact-section .section-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .contact-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .contact-section h2 em { font-style: italic; }
+
+    .contact-section p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); background: rgba(200,151,74,0.12); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    @media (min-width: 768px) {
+      footer { padding: 24px 40px; }
+    }
+
+    footer .logo { font-size: 1rem; }
+    footer p {
+      font-size: 0.72rem;
+      color: var(--ink2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+    .card { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.12s; }
+    .card:nth-child(3) { animation-delay: 0.19s; }
+    .card:nth-child(4) { animation-delay: 0.26s; }
+    .card:nth-child(5) { animation-delay: 0.33s; }
+    .card:nth-child(6) { animation-delay: 0.40s; }
+
+    /* ── TOAST (order confirmation) ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--ink);
+      color: var(--white);
+      padding: 14px 28px;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <span class="drawer-logo">GIF<span>TED</span></span>
+    <button class="close-btn" onclick="closeDrawer()">✕</button>
+  </div>
+  <ul class="drawer-nav">
+    <li><a href="#catalog" onclick="closeDrawer()">Каталог</a></li>
+    <li><a href="#contact" onclick="closeDrawer()">Связаться</a></li>
+  </ul>
+  <div class="drawer-footer">
+    <p>Персонализированные подарки<br>с душой</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" onclick="showCatalog()">GIF<span>TED</span></a>
+  <nav>
+    <ul class="nav-desktop">
+      <li><a href="#catalog">Каталог</a></li>
+      <li><a href="#contact">Контакты</a></li>
+    </ul>
+  </nav>
+  <div class="header-right">
+    <button class="burger" id="burgerBtn" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN CONTENT (catalog view) -->
+<main id="mainView">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow fade-up" style="animation-delay:0.1s">Подарки, которые запоминают</p>
+    <h1 class="fade-up" style="animation-delay:0.2s">Создаю<br><em>уникальные</em><br>подарки</h1>
+    <p class="hero-sub fade-up" style="animation-delay:0.3s">
+      Чиби-персонажи, журнальные обложки, раскраски, фотоколлажи — всё, что сделает подарок незабываемым
+    </p>
+    <a class="btn-primary fade-up" href="#catalog" style="animation-delay:0.4s">Смотреть работы</a>
+    <div class="hero-divider"></div>
+  </section>
+
+  <!-- CATALOG -->
+  <section id="catalog">
+    <div class="section-header">
+      <h2 class="section-title">Что делаю</h2>
+      <span class="section-count">6 услуг</span>
+    </div>
+    <div class="catalog">
+      <div class="grid" id="productGrid">
+        <!-- cards rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <p class="section-eyebrow">Написать мне</p>
+    <h2>Обсудим<br><em>ваш подарок</em></h2>
+    <p>Расскажите о человеке — придумаем что-то особенное</p>
+    <div class="contact-links">
+      <a class="contact-link" href="https://t.me/" target="_blank">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-2.002 9.43c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.9l-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.463c.537-.194 1.006.131.96.661z"/></svg>
+        Telegram
+      </a>
+      <a class="contact-link" href="https://instagram.com/" target="_blank">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162S8.597 18.163 12 18.163s6.162-2.759 6.162-6.162S15.403 5.838 12 5.838zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="logo">GIF<span>TED</span></span>
+    <p>© 2025 · Персонализированные подарки</p>
+  </footer>
+
+</main>
+
+<!-- PRODUCT PAGE -->
+<div class="product-page" id="productPage">
+  <div class="product-topbar">
+    <button class="back-btn" onclick="closePage()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M11 4l-5 5 5 5"/>
+      </svg>
+      Назад
+    </button>
+    <span class="product-num-label" id="pageNum"></span>
+  </div>
+  <div class="product-inner">
+    <div class="gallery" id="gallery">
+      <div class="gallery-main" id="galleryMain">
+        <div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+    <div class="product-info" id="productInfo"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Сообщение отправлено — скоро свяжусь!</div>
+
+<script>
+  const products = [
+    {
+      id: 1,
+      title: "Чиби-персонаж",
+      tag: "Цифровая иллюстрация",
+      shortDesc: "Анимэ-стиль",
+      images: 3,
+      desc: "Милый персонаж в стиле манга/аниме — с маленьким туловищем и большой головой. По вашей фотографии создаю уникальный образ: с правильной причёской, одеждой, аксессуарами.",
+      features: [
+        "По вашей фотографии",
+        "До 4 вариантов поз или образов",
+        "Высокое разрешение, PNG с прозрачным фоном",
+        "Срок: 3–5 рабочих дней",
+        "Формат: цифровой файл"
+      ]
+    },
+    {
+      id: 2,
+      title: "Обложка журнала",
+      tag: "Дизайн",
+      shortDesc: "Vogue / Times-стиль",
+      images: 3,
+      desc: "Ваш человек на обложке журнала — красиво, ярко, запоминающе. Стилизуем под Vogue, Times или создадим уникальный журнал с именем именинника.",
+      features: [
+        "Стили: Vogue, Times и другие",
+        "Имя и дата на обложке",
+        "Возможна печать",
+        "Срок: 2–4 рабочих дня",
+        "Формат: PDF + JPG, высокое разрешение"
+      ]
+    },
+    {
+      id: 3,
+      title: "Раскраска",
+      tag: "Иллюстрация",
+      shortDesc: "Из вашей фотографии",
+      images: 3,
+      desc: "Превращаю фотографию в детальную раскраску — людей, питомцев, семейные портреты. Красивые линии, все детали прорисованы вручную.",
+      features: [
+        "Люди, животные, семейные портреты",
+        "Детальная прорисовка",
+        "Возможна печать",
+        "Срок: 3–5 рабочих дней",
+        "Формат: PDF, A4/A3"
+      ]
+    },
+    {
+      id: 4,
+      title: "Фотоколлаж",
+      tag: "Дизайн",
+      shortDesc: "Дизайн с поздравлением",
+      images: 3,
+      desc: "Коллаж из ваших фотографий с поздравительным текстом — отлично подходит для распечатки и вставки в рамку. Красивый подарок на день рождения или другой праздник.",
+      features: [
+        "До 12 фотографий",
+        "Персонализированный текст",
+        "Готов к печати в рамку",
+        "Срок: 1–2 рабочих дня",
+        "Формат: JPG, высокое разрешение"
+      ]
+    },
+    {
+      id: 5,
+      title: "Настольная игра",
+      tag: "Дизайн",
+      shortDesc: "Персонализированная",
+      images: 3,
+      desc: "Настольная игра-бродилка с вопросами и заданиями про именинника. Уникальный подарок, в который хочется играть снова и снова.",
+      features: [
+        "Поле с маршрутом и заданиями",
+        "Вопросы про именинника",
+        "Готов к распечатке",
+        "Срок: 3–5 рабочих дней",
+        "Формат: PDF, A3"
+      ]
+    },
+    {
+      id: 6,
+      title: "Этикетка для бутылки",
+      tag: "Дизайн",
+      shortDesc: "Именная этикетка",
+      images: 3,
+      desc: "Красивая персонализированная этикетка для бутылки шампанского, вина или другого напитка. С портретом именинника и подписью — эффектный подарок.",
+      features: [
+        "Портрет + имя + подпись",
+        "Разные стили оформления",
+        "Размер под стандартную бутылку",
+        "Срок: 1–2 рабочих дня",
+        "Формат: PDF, высокое разрешение"
+      ]
+    }
+  ];
+
+  // Render cards
+  const grid = document.getElementById('productGrid');
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openPage(p.id);
+    card.innerHTML = `
+      <div class="card-img">
+        <div class="placeholder">
+          <div class="placeholder-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+          </div>
+        </div>
+        <span class="card-num">0${p.id}</span>
+      </div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-tag">${p.shortDesc}</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Open product page
+  function openPage(id) {
+    const p = products.find(x => x.id === id);
+    document.getElementById('pageNum').textContent = `0${p.id} / 0${products.length}`;
+
+    // Gallery
+    const mainEl = document.getElementById('galleryMain');
+    mainEl.innerHTML = `<div class="img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`;
+
+    const thumbsEl = document.getElementById('galleryThumbs');
+    thumbsEl.innerHTML = '';
+    for (let i = 0; i < p.images; i++) {
+      const t = document.createElement('div');
+      t.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+      t.innerHTML = `<div class="img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`;
+      t.onclick = () => {
+        thumbsEl.querySelectorAll('.gallery-thumb').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      };
+      thumbsEl.appendChild(t);
+    }
+
+    // Info
+    const featuresHTML = p.features.map(f => `
+      <li><span class="feat-dot"></span>${f}</li>
+    `).join('');
+
+    document.getElementById('productInfo').innerHTML = `
+      <div class="product-tag">${p.tag}</div>
+      <h1 class="product-title">${p.title}</h1>
+      <div class="product-divider"></div>
+      <p class="product-desc">${p.desc}</p>
+      <ul class="product-features">${featuresHTML}</ul>
+      <button class="btn-order" onclick="orderProduct('${p.title}')">Заказать</button>
+    `;
+
+    const page = document.getElementById('productPage');
+    page.classList.add('open');
+    page.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePage() {
+    document.getElementById('productPage').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function orderProduct(title) {
+    closePage();
+    setTimeout(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }, 400);
+  }
+
+  // Drawer
+  function toggleDrawer() {
+    const d = document.getElementById('drawer');
+    const o = document.getElementById('drawerOverlay');
+    const b = document.getElementById('burgerBtn');
+    const isOpen = d.classList.contains('open');
+    if (isOpen) { closeDrawer(); } else {
+      d.classList.add('open');
+      o.classList.add('open');
+      b.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.getElementById('burgerBtn').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function showCatalog() {
+    closePage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Close product page with swipe right on mobile
+  let touchStartX = 0;
+  const productPage = document.getElementById('productPage');
+  productPage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  productPage.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx > 80 && productPage.scrollTop === 0) closePage();
+  }, { passive: true });
+</script>
+
+</body>
+</html>
