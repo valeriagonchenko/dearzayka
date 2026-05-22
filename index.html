@@ -214,10 +214,15 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('dearzayka.png');
-      background-size: cover;
-      background-position: center top;
       z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* Left-side gradient so text stays readable without darkening the whole image */
@@ -795,7 +800,12 @@
 
 <main id="mainView">
   <section class="hero">
-    <div class="hero-bg"></div>
+    <div class="hero-bg">
+      <video autoplay muted loop playsinline poster="dearzayka.png">
+        <source src="IMG_5606.MOV" type="video/mp4">
+        <source src="IMG_5606.MOV" type="video/quicktime">
+      </video>
+    </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <p class="hero-eyebrow fade-up" style="animation-delay:0.1s">это тебе — зайчик передал</p>
