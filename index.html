@@ -649,6 +649,245 @@
 
     .btn-order:hover { background: var(--accent); }
 
+в вашем файле -->
+<style>
+.how-section {
+  padding: 72px 0 80px;
+  background: var(--bg2);
+  overflow: hidden;
+}
+
+.how-header {
+  text-align: center;
+  padding: 0 20px;
+  margin-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+  .how-header { padding: 0 40px; }
+}
+
+.how-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.how-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.how-subtitle {
+  font-size: 0.86rem;
+  color: var(--ink2);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.75;
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* ── горизонтальная лента ── */
+.how-track-wrap {
+  position: relative;
+}
+
+/* линия за карточками */
+.how-track-wrap::before {
+  content: '';
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(157,188,219,0.5) 8%,
+    rgba(157,188,219,0.5) 92%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.how-track {
+  display: flex;
+  gap: 0;
+  padding: 0 20px 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.how-track::-webkit-scrollbar { display: none; }
+
+@media (min-width: 768px) {
+  .how-track {
+    padding: 0 40px 8px;
+    overflow-x: visible;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .how-track-wrap::before { display: none; }
+}
+
+/* ── карточка шага ── */
+.how-card {
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px 24px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.how-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.how-card:nth-child(1) { transition-delay: 0.0s; }
+.how-card:nth-child(2) { transition-delay: 0.1s; }
+.how-card:nth-child(3) { transition-delay: 0.2s; }
+.how-card:nth-child(4) { transition-delay: 0.3s; }
+.how-card:nth-child(5) { transition-delay: 0.4s; }
+.how-card:nth-child(6) { transition-delay: 0.5s; }
+
+@media (min-width: 768px) {
+  .how-card {
+    flex: 0 0 calc(33% - 12px);
+    max-width: 220px;
+    transform: translateY(20px);
+  }
+
+  .how-card.visible { transform: translateY(0); }
+}
+
+/* зайчик */
+.how-bunny-wrap {
+  width: 96px;
+  height: 96px;
+  position: relative;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.how-bunny-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1.5px solid rgba(157,188,219,0.3);
+  box-shadow: 0 4px 16px rgba(25,42,62,0.06);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+              box-shadow 0.35s ease;
+}
+
+.how-card:hover .how-bunny-bg {
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(25,42,62,0.10);
+}
+
+.how-bunny-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.how-card:hover .how-bunny-wrap img {
+  transform: translateY(-5px) scale(1.1);
+}
+
+/* номер */
+.how-num {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 6px;
+}
+
+/* заголовок */
+.how-card-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+/* описание — скрыто, раскрывается при клике */
+.how-card-desc {
+  font-size: 0.78rem;
+  color: var(--ink2);
+  line-height: 1.7;
+  font-weight: 300;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.35s ease;
+  opacity: 0;
+}
+
+.how-card.expanded .how-card-desc {
+  max-height: 200px;
+  opacity: 1;
+}
+
+/* стрелка раскрытия */
+.how-card-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--ink2);
+  transition: background 0.2s, transform 0.3s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.how-card-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+.how-card.expanded .how-card-toggle {
+  background: var(--accent-light);
+  border-color: var(--accent);
+}
+
+.how-card.expanded .how-card-toggle svg {
+  transform: rotate(180deg);
+}
+
     /* ── CONTACT ── */
     .contact-section {
       background: var(--ink);
@@ -778,6 +1017,7 @@
   </div>
   <ul class="drawer-nav">
     <li><a href="#catalog" onclick="closeDrawer()">Каталог</a></li>
+    <li><a href="#how" onclick="closeDrawer()">Как мы работаем</a></li>
     <li><a href="#contact" onclick="closeDrawer()">Связаться</a></li>
   </ul>
   <div class="drawer-footer">
@@ -790,6 +1030,7 @@
   <nav>
     <ul class="nav-desktop">
       <li><a href="#catalog">Каталог</a></li>
+      <li><a href="#how">Как мы работаем</a></li>
       <li><a href="#contact">Контакты</a></li>
     </ul>
   </nav>
@@ -826,6 +1067,111 @@
     </div>
     <div class="catalog">
       <div class="grid" id="productGrid"></div>
+    </div>
+  </section>
+
+
+  <section class="how-section" id="how">
+    <div class="how-header">
+      <p class="how-eyebrow">Процесс</p>
+      <h2 class="how-title">Как мы работаем</h2>
+      <p class="how-subtitle">От идеи до готового подарка — аккуратно, с вниманием к деталям и без случайных результатов.</p>
+    </div>
+  
+    <div class="how-track-wrap">
+      <div class="how-track">
+  
+        <div class="how-card" onclick="toggleHowCard(this)">
+          <div class="how-bunny-wrap">
+            <div class="how-bunny-bg"></div>
+            <img src="step1.png" alt="Обсуждаем идею">
+          </div>
+          <div class="how-num">01</div>
+          <div class="how-card-title">Обсуждаем&nbsp;идею</div>
+          <p class="how-card-desc">Вы рассказываете, для кого подарок, по какому поводу и какой результат хочется получить. Можно прислать фото, примеры, пожелания по стилю, тексту и настроению.</p>
+          <button class="how-card-toggle" aria-label="Раскрыть">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l3 3 3-3"/>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="how-card" onclick="toggleHowCard(this)">
+          <div class="how-bunny-wrap">
+            <div class="how-bunny-bg"></div>
+            <img src="step2.png" alt="Подбираем формат">
+          </div>
+          <div class="how-num">02</div>
+          <div class="how-card-title">Подбираем&nbsp;формат</div>
+          <p class="how-card-desc">Я помогу выбрать, что лучше подойдёт: чиби-персонаж, обложка журнала, раскраска, фотоколлаж, настольная игра или этикетка для бутылки.</p>
+          <button class="how-card-toggle" aria-label="Раскрыть">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l3 3 3-3"/>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="how-card" onclick="toggleHowCard(this)">
+          <div class="how-bunny-wrap">
+            <div class="how-bunny-bg"></div>
+            <img src="step3.png" alt="Создаю варианты">
+          </div>
+          <div class="how-num">03</div>
+          <div class="how-card-title">Создаю&nbsp;варианты</div>
+          <p class="how-card-desc">Несколько вариантов, отбираю самые удачные и довожу вручную: черты лица, одежда, руки, украшения, аксессуары, фон, текст и другие детали.</p>
+          <button class="how-card-toggle" aria-label="Раскрыть">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l3 3 3-3"/>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="how-card" onclick="toggleHowCard(this)">
+          <div class="how-bunny-wrap">
+            <div class="how-bunny-bg"></div>
+            <img src="step4.png" alt="Показываю результат">
+          </div>
+          <div class="how-num">04</div>
+          <div class="how-card-title">Показываю&nbsp;результат</div>
+          <p class="how-card-desc">Вы смотрите готовый вариант, а я при необходимости вношу небольшие корректировки: по цвету, тексту, расположению элементов или отдельным деталям.</p>
+          <button class="how-card-toggle" aria-label="Раскрыть">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l3 3 3-3"/>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="how-card" onclick="toggleHowCard(this)">
+          <div class="how-bunny-wrap">
+            <div class="how-bunny-bg"></div>
+            <img src="step5.png" alt="Передаю файл">
+          </div>
+          <div class="how-num">05</div>
+          <div class="how-card-title">Передаю&nbsp;файл</div>
+          <p class="how-card-desc">После согласования вы получаете файл в хорошем качестве — для печати, публикации или отправки близкому человеку. Печать и оформление можно обсудить отдельно.</p>
+          <button class="how-card-toggle" aria-label="Раскрыть">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l3 3 3-3"/>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="how-card" onclick="toggleHowCard(this)">
+          <div class="how-bunny-wrap">
+            <div class="how-bunny-bg"></div>
+            <img src="step6.png" alt="Бережно к вашим фото">
+          </div>
+          <div class="how-num">06</div>
+          <div class="how-card-title">Бережно к&nbsp;вашим фото</div>
+          <p class="how-card-desc">Ваши фотографии и личные материалы не передаются третьим лицам. Публикация работы в портфолио — только с вашего согласия.</p>
+          <button class="how-card-toggle" aria-label="Раскрыть">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l3 3 3-3"/>
+            </svg>
+          </button>
+        </div>
+  
+      </div>
     </div>
   </section>
 
@@ -1079,6 +1425,24 @@
     const dx = e.changedTouches[0].clientX - touchStartX;
     if (dx > 80 && productPage.scrollTop === 0) closePage();
   }, { passive: true });
+
+  function toggleHowCard(card) {
+    card.classList.toggle('expanded');
+  }
+  
+  (function() {
+    const cards = document.querySelectorAll('.how-card');
+    if (!cards.length) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(c => obs.observe(c));
+  })();
 </script>
 
 </body>
