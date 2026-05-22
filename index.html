@@ -50,16 +50,21 @@
     }
 
     .logo {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--ink);
+      display: flex;
+      align-items: center;
       text-decoration: none;
       cursor: pointer;
     }
 
-    .logo span { color: var(--accent); }
+    .logo img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .logo img { height: 42px; }
+    }
 
     .nav-desktop { display: none; }
 
@@ -761,7 +766,7 @@
 
 <div class="drawer" id="drawer">
   <div class="drawer-header">
-    <span class="drawer-logo">Dear<span>Zayka</span></span>
+    <span class="drawer-logo"><img src="logo.png" alt="DearZayka" style="height:32px;width:auto;display:block;"></span>
     <button class="close-btn" onclick="closeDrawer()">✕</button>
   </div>
   <ul class="drawer-nav">
@@ -774,7 +779,7 @@
 </div>
 
 <header>
-  <a class="logo" onclick="showCatalog()">Dear<span>Zayka</span></a>
+  <a class="logo" onclick="showCatalog()"><img src="logo.png" alt="DearZayka"></a>
   <nav>
     <ul class="nav-desktop">
       <li><a href="#catalog">Каталог</a></li>
@@ -829,7 +834,7 @@
   </section>
 
   <footer>
-    <span class="logo">Dear<span>Zayka</span></span>
+    <span class="logo"><img src="logo.png" alt="DearZayka"></span>
     <p>© 2025 · DearZayka · Зайчик передал</p>
   </footer>
 </main>
